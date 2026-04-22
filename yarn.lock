@@ -2042,6 +2042,61 @@
   resolved "https://registry.yarnpkg.com/@socket.io/component-emitter/-/component-emitter-3.1.2.tgz#821f8442f4175d8f0467b9daf26e3a18e2d02af2"
   integrity sha512-9BCxFwvbGg/RsZK9tjXd8s4UcwR0MWeFQ1XEKIQVVvAGJyINdrqKMcTRyLoK8Rse1GjzLV9cwjWV1olXRWEXVA==
 
+"@supabase/auth-js@2.104.0":
+  version "2.104.0"
+  resolved "https://registry.yarnpkg.com/@supabase/auth-js/-/auth-js-2.104.0.tgz#98f3bbb35ee135724404180a26221593c2d8f6d3"
+  integrity sha512-Vs0ndL+s5an7rOmXtS/nbYnGXL8m+KXlCSrPIcw9bR96ma6qyLYILnE6syuM+rpDnf+Tg4PVNxNB2+oDwoy6mA==
+  dependencies:
+    tslib "2.8.1"
+
+"@supabase/functions-js@2.104.0":
+  version "2.104.0"
+  resolved "https://registry.yarnpkg.com/@supabase/functions-js/-/functions-js-2.104.0.tgz#9316666f46e41b2d2ffa18f14af7f04ef4562f76"
+  integrity sha512-O8EyEz/RT1kfWhyJNpVc/VbLeBsohHGBVif/CI83zoMB+Iul/t/NIekH1/7RsH6kuO+b2D4wJhfiaW8Qr47sRg==
+  dependencies:
+    tslib "2.8.1"
+
+"@supabase/phoenix@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@supabase/phoenix/-/phoenix-0.4.0.tgz#1a2d84658fbd34b6f33a22660efe7def38905d40"
+  integrity sha512-RHSx8bHS02xwfHdAbX5Lpbo6PXbgyf7lTaXTlwtFDPwOIw64NnVRwFAXGojHhjtVYI+PEPNSWwkL90f4agN3bw==
+
+"@supabase/postgrest-js@2.104.0":
+  version "2.104.0"
+  resolved "https://registry.yarnpkg.com/@supabase/postgrest-js/-/postgrest-js-2.104.0.tgz#8a414addfcf86e7906be3ade2c154e7c3d920411"
+  integrity sha512-ynylEq6wduQEycj6pL3P+/yIfDQ+CTnBC5I6p+PzcAO2ybj9coAITVtMfboi+g/dacgMslN5MH73rXsRMB29+Q==
+  dependencies:
+    tslib "2.8.1"
+
+"@supabase/realtime-js@2.104.0":
+  version "2.104.0"
+  resolved "https://registry.yarnpkg.com/@supabase/realtime-js/-/realtime-js-2.104.0.tgz#a4f96902b514f7d7bd03bbfb3310922388c098a6"
+  integrity sha512-9fUVDoTVAhn7a79+AmEx+asUlRtf2yBrji7TQckcKn/WK4hvAA9Lia9er+lnhuz3WNiF1x6kkA4x7bRCJrU+KA==
+  dependencies:
+    "@supabase/phoenix" "^0.4.0"
+    "@types/ws" "^8.18.1"
+    tslib "2.8.1"
+    ws "^8.18.2"
+
+"@supabase/storage-js@2.104.0":
+  version "2.104.0"
+  resolved "https://registry.yarnpkg.com/@supabase/storage-js/-/storage-js-2.104.0.tgz#cb616e6ad38cf071e5c06c18529af6e0efd4469c"
+  integrity sha512-s2NHtuAWb9nldJ/fS62WnJE6edvCWn31rrO+FJKlAohs99qdVgtLegUReTU2H9WnZiQlVqaBtu386wt6/6lrRw==
+  dependencies:
+    iceberg-js "^0.8.1"
+    tslib "2.8.1"
+
+"@supabase/supabase-js@^2.104.0":
+  version "2.104.0"
+  resolved "https://registry.yarnpkg.com/@supabase/supabase-js/-/supabase-js-2.104.0.tgz#6935e72489f96b71212222a8e7eb16d2be854793"
+  integrity sha512-hILwhIjCB53G31jlHUe73NDEmrXudcjcYlVRuvNfEhzf0gyFQaFf7j6rd1UGmYZkFMOg//DFE8Iy9ZbNEgosVw==
+  dependencies:
+    "@supabase/auth-js" "2.104.0"
+    "@supabase/functions-js" "2.104.0"
+    "@supabase/postgrest-js" "2.104.0"
+    "@supabase/realtime-js" "2.104.0"
+    "@supabase/storage-js" "2.104.0"
+
 "@tsconfig/node10@^1.0.7":
   version "1.0.11"
   resolved "https://registry.yarnpkg.com/@tsconfig/node10/-/node10-1.0.11.tgz#6ee46400685f130e278128c7b38b7e031ff5b2f2"
@@ -2178,6 +2233,13 @@
   version "0.0.30"
   resolved "https://registry.yarnpkg.com/@types/strip-json-comments/-/strip-json-comments-0.0.30.tgz#9aa30c04db212a9a0649d6ae6fd50accc40748a1"
   integrity sha512-7NQmHra/JILCd1QqpSzl8+mJRc8ZHz3uDm8YV1Ks9IhK0epEiTw8aIErbvH9PI+6XbqhyIQy3462nEsn7UVzjQ==
+
+"@types/ws@^8.18.1":
+  version "8.18.1"
+  resolved "https://registry.yarnpkg.com/@types/ws/-/ws-8.18.1.tgz#48464e4bf2ddfd17db13d845467f6070ffea4aa9"
+  integrity sha512-ThVF6DCVhA8kUGy+aazFQ4kXQ7E1Ty7A3ypFOe0IcJV8O/M511G99AW24irKrW56Wt44yG9+ij8FaqoBGkuBXg==
+  dependencies:
+    "@types/node" "*"
 
 "@typescript-eslint/eslint-plugin@8.37.0":
   version "8.37.0"
@@ -4670,6 +4732,11 @@ husky@^9.1.6:
   version "9.1.6"
   resolved "https://registry.yarnpkg.com/husky/-/husky-9.1.6.tgz#e23aa996b6203ab33534bdc82306b0cf2cb07d6c"
   integrity sha512-sqbjZKK7kf44hfdE94EoX8MZNk0n7HeW37O4YrVGCF4wzgQjp+akPAkfUK5LZ6KuR/6sqeAVuXHji+RzQgOn5A==
+
+iceberg-js@^0.8.1:
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/iceberg-js/-/iceberg-js-0.8.1.tgz#47d893468293a010385e1c70123f29d0fc1d9912"
+  integrity sha512-1dhVQZXhcHje7798IVM+xoo/1ZdVfzOMIc8/rgVSijRK38EDqOJoGula9N/8ZI5RD8QTxNQtK/Gozpr+qUqRRA==
 
 iconv-lite@0.4.24, iconv-lite@^0.4.24:
   version "0.4.24"
@@ -7602,15 +7669,15 @@ tsconfig@^7.0.0:
     strip-bom "^3.0.0"
     strip-json-comments "^2.0.0"
 
+tslib@2.8.1, tslib@^2.8.1:
+  version "2.8.1"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.8.1.tgz#612efe4ed235d567e8aba5f2a5fab70280ade83f"
+  integrity sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==
+
 tslib@^2.0.0, tslib@^2.1.0, tslib@^2.3.0:
   version "2.7.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.7.0.tgz#d9b40c5c40ab59e8738f297df3087bf1a2690c01"
   integrity sha512-gLXCKdN1/j47AiHiOkJN69hJmcbGTHI0ImLmbYLHykhgeN0jVGola9yVjFgzCUklsZQMW55o+dW7IXv3RCXDzA==
-
-tslib@^2.8.1:
-  version "2.8.1"
-  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.8.1.tgz#612efe4ed235d567e8aba5f2a5fab70280ade83f"
-  integrity sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==
 
 tuf-js@^3.0.1:
   version "3.0.1"
@@ -8079,6 +8146,11 @@ write-file-atomic@^4.0.2:
   dependencies:
     imurmurhash "^0.1.4"
     signal-exit "^3.0.7"
+
+ws@^8.18.2:
+  version "8.20.0"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-8.20.0.tgz#4cd9532358eba60bc863aad1623dfb045a4d4af8"
+  integrity sha512-sAt8BhgNbzCtgGbt2OxmpuryO63ZoDk/sqaB/znQm94T4fCEsy/yV+7CdC1kJhOU9lboAEU7R3kquuycDoibVA==
 
 ws@~8.17.1:
   version "8.17.1"

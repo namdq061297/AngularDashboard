@@ -27,7 +27,7 @@ export const appSetting = {
         sale: false,
       },
       access: {
-        user: false,
+        user: true,
         sale: true,
       },
     },

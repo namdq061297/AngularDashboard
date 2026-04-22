@@ -70,6 +70,7 @@ This guide provides an overview of key aspects of the project structure and help
 ### API Integration Flow
 
 - The app uses a best practice approach to manage API integration. This demo flow is available under the **randomUser** feature.
+- The default data source for the **randomUser** feature is Supabase (table: `users`).
 
 - **Service**: Each service is responsible for handling one aspect of the application. For example, the **UserService** will only handle user-related API calls. This ensures the **Single Responsibility Principle** is followed. The service functions should be aligned with HTTP request methods such as `find`, `get`, `put`, `create`, and `delete`.
 
@@ -85,6 +86,52 @@ This guide provides an overview of key aspects of the project structure and help
   This modular approach enhances the separation of concerns and ensures that components interact with use cases rather than services directly.
 
 - **Components**: In your components, you will call use case methods for data instead of calling services directly. This modular approach ensures better structure and maintainability.
+
+### Supabase Setup (Replace Mock API)
+
+1. Create a Supabase project from [https://supabase.com](https://supabase.com).
+2. In your Supabase project, copy:
+   - Project URL
+   - Anon public key
+3. Export environment variables before starting the app:
+
+```bash
+export NG_APP_SUPABASE_URL="https://YOUR_PROJECT_REF.supabase.co"
+export NG_APP_SUPABASE_ANON_KEY="YOUR_SUPABASE_ANON_PUBLIC_KEY"
+export NG_APP_SUPABASE_USERS_TABLE="users"
+```
+
+4. Regenerate the Angular env file and run the app:
+
+```bash
+yarn write:env
+yarn start
+```
+
+5. Create and seed a `users` table (minimum shape to support current Users List page):
+
+```sql
+create table if not exists public.users (
+  id uuid primary key default gen_random_uuid(),
+  first_name text not null,
+  last_name text not null,
+  email text not null,
+  phone text,
+  city text,
+  country text,
+  avatar_url text
+);
+
+alter table public.users enable row level security;
+
+create policy "Allow read users for anon"
+on public.users
+for select
+to anon
+using (true);
+```
+
+The service also supports rows that already contain nested `name`, `location`, and `picture` objects (RandomUser-like shape).
 
 ### Application Architecture
 

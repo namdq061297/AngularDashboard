@@ -7,6 +7,7 @@ import { NavMode, ShellService } from '@app/shell/services/shell.service';
 import { webSidebarMenuItems } from '@core/constants';
 import { CredentialsService } from '@auth';
 import { NavMenuItem } from '@core/interfaces';
+import { SupabaseService } from '@core/services';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -21,16 +22,19 @@ export class SidebarComponent implements OnInit {
   sidebarItems: NavMenuItem[] = [];
   sidebarExtendedItem = -1;
   navExpanded = true;
+  userEmail = 'user';
 
   constructor(
     private readonly _router: Router,
     private readonly _credentialsService: CredentialsService,
+    private readonly _supabaseService: SupabaseService,
     public shellService: ShellService,
   ) {
     this.sidebarItems = webSidebarMenuItems;
   }
 
   ngOnInit(): void {
+    void this._setLoggedInUserLabel();
     this.shellService.activeNavTab(this.sidebarItems, this.sidebarExtendedItem);
 
     this._router.events
@@ -73,5 +77,32 @@ export class SidebarComponent implements OnInit {
 
   activateSidebarSubItem(index: number, subItem: NavMenuItem): void {
     this.shellService.activateNavSubItem(index, subItem, this.sidebarItems);
+  }
+
+  private async _setLoggedInUserLabel(): Promise<void> {
+    const emailFromCredentials = this._credentialsService.credentials?.email;
+    const usernameFromCredentials = this._credentialsService.credentials?.username;
+    const preferredName = emailFromCredentials || usernameFromCredentials;
+
+    if (preferredName) {
+      this.userEmail = preferredName.split('@')[0] || 'user';
+      return;
+    }
+
+    if (!this._supabaseService.isConfigured) {
+      return;
+    }
+
+    const response = await this._supabaseService.client.auth.getUser();
+    const supabaseEmail = response.data.user?.email;
+
+    if (supabaseEmail) {
+      this.userEmail = supabaseEmail.split('@')[0] || 'user';
+    }
+  }
+
+  logout(): void {
+    this._credentialsService.setCredentials();
+    this._router.navigate(['/login']);
   }
 }

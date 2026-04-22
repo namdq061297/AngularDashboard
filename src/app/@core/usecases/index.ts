@@ -1,1 +1,1 @@
-export * from './useRandomUser';
+export * from './useUser';

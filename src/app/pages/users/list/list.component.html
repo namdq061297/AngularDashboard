@@ -1,6 +1,13 @@
 <section class="main-container">
   <h2>Users List</h2>
 
+  @if (error$ | async; as error) {
+    <div class="users-state users-state--error">
+      <span>{{ error }}</span>
+      <button (click)="reloadUsers()" type="button">Retry</button>
+    </div>
+  }
+
   <div class="user-table-container">
     <table class="user-table">
       <thead>
@@ -13,16 +20,21 @@
         </tr>
       </thead>
       <tbody>
-        @if (!isLoading) {
-          @for (user of users; track user.id) {
+        @if (!(isLoading$ | async)) {
+          @for (user of users$ | async; track user.id) {
             <tr (click)="userClicked()">
               <td>
-                <img [src]="user.picture.thumbnail" alt="{{ user.name.first }}'s avatar" />
+                <img [src]="user.avatarThumbnail" alt="{{ user.fullName }} avatar" />
               </td>
-              <td>{{ user.name.title }} {{ user.name.first }} {{ user.name.last }}</td>
+              <td>{{ user.fullName }}</td>
               <td>{{ user.email }}</td>
-              <td>{{ user.phone }}</td>
-              <td>{{ user.location.city }}, {{ user.location.country }}</td>
+              <td>{{ user.phone || '-' }}</td>
+              <td>{{ user.displayLocation }}</td>
+            </tr>
+          }
+          @if (!(users$ | async)?.length) {
+            <tr>
+              <td colspan="5" style="text-align: center">No users found in Supabase table.</td>
             </tr>
           }
         } @else {

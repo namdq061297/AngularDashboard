@@ -321,6 +321,50 @@ nav {
       }
     }
   }
+
+  .logout-container {
+    position: absolute;
+    bottom: 110px;
+    width: 100%;
+    padding: 0 18px;
+    display: flex;
+    justify-content: center;
+
+    .logout-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      width: 100%;
+      padding: 10px;
+      background-color: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 9px;
+      color: var(--sidebar-icon-color);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition:
+        background-color 0.3s ease-in-out,
+        border-color 0.3s ease-in-out;
+
+      &:hover {
+        background-color: rgba(255, 0, 0, 0.1);
+        border-color: rgba(255, 0, 0, 0.3);
+      }
+
+      i {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      span {
+        flex: 1;
+        text-align: center;
+      }
+    }
+  }
 }
 
 // Aux Class
