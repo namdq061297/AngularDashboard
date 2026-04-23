@@ -16,6 +16,12 @@ export class LogoutComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    const confirmed = window.confirm('Are you sure you want to logout?');
+    if (!confirmed) {
+      this._router.navigate(['/']);
+      return;
+    }
+
     if (!this._credentialsService.isAuthenticated()) {
       this._credentialsService.setCredentials();
       this._router.navigate(['/login']).then(() => {

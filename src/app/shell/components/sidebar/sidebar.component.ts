@@ -102,7 +102,11 @@ export class SidebarComponent implements OnInit {
   }
 
   logout(): void {
-    this._credentialsService.setCredentials();
-    this._router.navigate(['/login']);
+    const confirmed = window.confirm('Are you sure you want to logout?');
+    if (!confirmed) {
+      return;
+    }
+
+    this._router.navigate(['/logout']);
   }
 }
