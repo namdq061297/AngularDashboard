@@ -73,3 +73,42 @@
     cursor: pointer;
   }
 }
+
+.pagination-container {
+  margin: 0 20px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.pagination-summary,
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pagination-summary label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pagination-container button,
+.pagination-container select {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fff;
+  padding: 8px 12px;
+}
+
+.pagination-container button {
+  cursor: pointer;
+}
+
+.pagination-container button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}

@@ -51,4 +51,27 @@
       </tbody>
     </table>
   </div>
+
+  @if (pagination$ | async; as pagination) {
+    <div class="pagination-container">
+      <div class="pagination-summary">
+        <span>Total: {{ pagination.total }}</span>
+
+        <label>
+          Per page
+          <select [value]="pagination.perPage" (change)="onPerPageChange($event)">
+            @for (option of perPageOptions; track option) {
+              <option [value]="option">{{ option }}</option>
+            }
+          </select>
+        </label>
+      </div>
+
+      <div class="pagination-controls">
+        <button type="button" [disabled]="!pagination.hasPreviousPage" (click)="goToPreviousPage(pagination.page, pagination.perPage)">Previous</button>
+        <span>Page {{ pagination.page }} / {{ pagination.totalPages }}</span>
+        <button type="button" [disabled]="!pagination.hasNextPage" (click)="goToNextPage(pagination.page, pagination.perPage, pagination.totalPages)">Next</button>
+      </div>
+    </div>
+  }
 </section>
