@@ -34,6 +34,6 @@ export class UserEntity {
   }
 
   get avatarThumbnail(): string {
-    return this.avatar_url || 'https://via.placeholder.com/50';
+    return this.avatar_url || '/images/placeholder.png';
   }
 }

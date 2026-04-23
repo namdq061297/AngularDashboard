@@ -65,7 +65,21 @@
     <div class="form-row">
       <div class="form-field form-field--full">
         <label for="avatar_url">Avatar URL</label>
-        <input id="avatar_url" type="url" formControlName="avatar_url" placeholder="https://example.com/avatar.png" />
+        <input id="avatar_url" type="url" formControlName="avatar_url" placeholder="https://example.com/avatar.png" (input)="onAvatarUrlChange($event)" />
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-field form-field--full">
+        <label for="avatar_file">Or Pick Avatar From Device</label>
+        <input id="avatar_file" type="file" accept="image/*" (change)="onAvatarFileChange($event)" />
+        @if (avatarFileError) {
+          <span class="field-error">{{ avatarFileError }}</span>
+        }
+
+        <div class="avatar-preview">
+          <img [src]="avatarPreviewUrl" alt="Avatar preview" (error)="onAvatarPreviewError()" />
+        </div>
       </div>
     </div>
 

@@ -13,6 +13,7 @@ import { UserStateService } from '@core/services';
   standalone: false,
 })
 export class CreateUserComponent {
+  readonly defaultAvatarUrl = '/images/placeholder.png';
   private readonly _fb = inject(FormBuilder);
   private readonly _userService = inject(UserService);
   private readonly _userStateService = inject(UserStateService);
@@ -20,6 +21,8 @@ export class CreateUserComponent {
   private readonly _toast = inject(HotToastService);
 
   isSubmitting = false;
+  avatarPreviewUrl = this.defaultAvatarUrl;
+  avatarFileError = '';
 
   form = this._fb.nonNullable.group({
     first_name: ['', [Validators.required, Validators.maxLength(50)]],
@@ -28,7 +31,7 @@ export class CreateUserComponent {
     phone: ['', [Validators.maxLength(10), Validators.pattern(/^\d+$/), phoneStartsWithZeroValidator()]],
     city: ['', [Validators.maxLength(50)]],
     country: ['', [Validators.maxLength(50)]],
-    avatar_url: ['', [Validators.maxLength(500)]],
+    avatar_url: [''],
   });
 
   get f() {
@@ -60,6 +63,49 @@ export class CreateUserComponent {
 
   onCancel(): void {
     this._router.navigate(['/users/list']);
+  }
+
+  onAvatarFileChange(event: Event): void {
+    const input = event.target as HTMLInputElement | null;
+    const file = input?.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    if (!file.type.startsWith('image/')) {
+      this.avatarFileError = 'Please choose an image file.';
+      return;
+    }
+
+    this.avatarFileError = '';
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const result = typeof reader.result === 'string' ? reader.result : '';
+      if (!result) {
+        this.avatarFileError = 'Unable to read selected image.';
+        return;
+      }
+      this.avatarPreviewUrl = result;
+      this.form.patchValue({ avatar_url: result });
+      this.form.controls.avatar_url.markAsDirty();
+    };
+
+    reader.onerror = () => {
+      this.avatarFileError = 'Unable to read selected image.';
+    };
+
+    reader.readAsDataURL(file);
+  }
+
+  onAvatarUrlChange(event: Event): void {
+    const value = (event.target as HTMLInputElement | null)?.value ?? '';
+    this.avatarPreviewUrl = value || this.defaultAvatarUrl;
+  }
+
+  onAvatarPreviewError(): void {
+    this.avatarPreviewUrl = this.defaultAvatarUrl;
   }
 }
 

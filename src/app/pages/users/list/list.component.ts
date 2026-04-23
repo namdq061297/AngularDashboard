@@ -11,6 +11,7 @@ import { BehaviorSubject, combineLatest, map } from 'rxjs';
   standalone: false,
 })
 export class ListComponent implements OnInit {
+  readonly defaultAvatarUrl = '/images/placeholder.png';
   private readonly _userStateService = inject(UserStateService);
   private readonly _router = inject(Router);
   private readonly _toast = inject(HotToastService);
@@ -90,5 +91,14 @@ export class ListComponent implements OnInit {
   onPerPageChange(event: Event): void {
     const perPage = Number((event.target as HTMLSelectElement | null)?.value ?? this._userStateService.snapshot.perPage);
     this._userStateService.loadUsers(true, 1, perPage);
+  }
+
+  onAvatarError(event: Event): void {
+    const img = event.target as HTMLImageElement | null;
+    if (!img) {
+      return;
+    }
+
+    img.src = this.defaultAvatarUrl;
   }
 }

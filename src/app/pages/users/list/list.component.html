@@ -24,7 +24,6 @@
           <th>Email</th>
           <th>Phone</th>
           <th>Location</th>
-          <th>Created At</th>
         </tr>
       </thead>
       <tbody>
@@ -33,24 +32,23 @@
             @for (user of filteredUsers; track user.id) {
               <tr class="user-row" (click)="userClicked()">
                 <td>
-                  <img [src]="user.avatarThumbnail" alt="{{ user.fullName }} avatar" />
+                  <img [src]="user.avatarThumbnail" alt="{{ user.fullName }}" (error)="onAvatarError($event)" />
                 </td>
                 <td>{{ user.fullName }}</td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.phone || '-' }}</td>
                 <td>{{ user.displayLocation }}</td>
-                <td>{{ user.displayCreatedAt }}</td>
               </tr>
             }
             @if (!filteredUsers.length) {
               <tr>
-                <td colspan="6" style="text-align: center">No users found.</td>
+                <td colspan="5" style="text-align: center">No users found.</td>
               </tr>
             }
           }
         } @else {
           <tr>
-            <td colspan="6" style="text-align: center">Loading...</td>
+            <td colspan="5" style="text-align: center">Loading...</td>
           </tr>
         }
       </tbody>

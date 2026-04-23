@@ -65,6 +65,18 @@
   color: #e53e3e;
 }
 
+.avatar-preview {
+  margin-top: 10px;
+
+  img {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    object-fit: cover;
+  }
+}
+
 .form-actions {
   display: flex;
   justify-content: flex-end;
