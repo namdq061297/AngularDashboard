@@ -101,7 +101,11 @@
 
 .actions-cell {
   width: 120px;
-  display: flex;
+  text-align: center;
+}
+
+.action-buttons {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;

@@ -58,7 +58,12 @@
 
       <div class="form-field">
         <label for="country">Country</label>
-        <input id="country" type="text" formControlName="country" placeholder="Vietnam" />
+        <select id="country" formControlName="country">
+          <option value="">Select country</option>
+          @for (country of countryOptions; track country) {
+            <option [value]="country">{{ country }}</option>
+          }
+        </select>
       </div>
     </div>
 

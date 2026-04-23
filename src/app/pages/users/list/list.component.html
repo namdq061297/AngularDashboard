@@ -40,16 +40,18 @@
                 <td>{{ user.phone || '-' }}</td>
                 <td>{{ user.displayLocation }}</td>
                 <td class="actions-cell">
-                  <button type="button" class="btn-delete" [disabled]="isDeletingUser(user.id)" (click)="deleteUser($event, user.id, user.fullName)" aria-label="Delete user" title="Delete user">
-                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                      <path d="M9 3h6l1 2h4v2H4V5h4l1-2zm1 6h2v9h-2V9zm4 0h2v9h-2V9zM7 9h2v9H7V9z" />
-                    </svg>
-                  </button>
-                  <button type="button" class="btn-edit" (click)="editUser($event, user.id)" aria-label="Edit user" title="Edit user">
-                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                      <path d="M3 17.25V21h3.75L17.8 9.94l-3.75-3.75L3 17.25zm14.71-9.04a1.003 1.003 0 000-1.42l-2.5-2.5a1.003 1.003 0 00-1.42 0l-1.96 1.96 3.75 3.75 2.13-1.79z" />
-                    </svg>
-                  </button>
+                  <div class="action-buttons">
+                    <button type="button" class="btn-edit" (click)="editUser($event, user.id)" aria-label="Edit user" title="Edit user">
+                      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <path d="M3 17.25V21h3.75L17.8 9.94l-3.75-3.75L3 17.25zm14.71-9.04a1.003 1.003 0 000-1.42l-2.5-2.5a1.003 1.003 0 00-1.42 0l-1.96 1.96 3.75 3.75 2.13-1.79z" />
+                      </svg>
+                    </button>
+                    <button type="button" class="btn-delete" [disabled]="isDeletingUser(user.id)" (click)="deleteUser($event, user.id, user.fullName)" aria-label="Delete user" title="Delete user">
+                      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <path d="M9 3h6l1 2h4v2H4V5h4l1-2zm1 6h2v9h-2V9zm4 0h2v9h-2V9zM7 9h2v9H7V9z" />
+                      </svg>
+                    </button>
+                  </div>
                 </td>
               </tr>
             }

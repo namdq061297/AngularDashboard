@@ -38,11 +38,13 @@
     color: #444;
   }
 
-  input {
+  input,
+  select {
     padding: 10px 12px;
     border: 1px solid #ccc;
     border-radius: 8px;
     font-size: 14px;
+    background: #fff;
 
     &:focus {
       border-color: #4a90e2;

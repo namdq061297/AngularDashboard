@@ -36,6 +36,7 @@
     "@ngxpert/hot-toast": "5.0.1",
     "@supabase/supabase-js": "^2.104.0",
     "bootstrap": "5.3.7",
+    "countries-list": "^3.3.0",
     "rxjs": "^7.8.2",
     "sanitize.css": "^13.0.0",
     "socket.io-client": "4.8.1",

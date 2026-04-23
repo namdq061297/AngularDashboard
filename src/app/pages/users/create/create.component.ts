@@ -2,6 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HotToastService } from '@ngxpert/hot-toast';
+import { countries } from 'countries-list';
 
 import { UserService } from '@core/services';
 import { UserStateService } from '@core/services';
@@ -14,6 +15,9 @@ import { UserStateService } from '@core/services';
 })
 export class CreateUserComponent implements OnInit {
   readonly defaultAvatarUrl = '/images/placeholder.png';
+  readonly countryOptions = Object.values(countries)
+    .map((country) => country.name)
+    .sort((left, right) => left.localeCompare(right));
   private readonly _fb = inject(FormBuilder);
   private readonly _userService = inject(UserService);
   private readonly _userStateService = inject(UserStateService);
@@ -34,7 +38,7 @@ export class CreateUserComponent implements OnInit {
     email: ['', [Validators.required, Validators.email, Validators.maxLength(100)]],
     phone: ['', [Validators.maxLength(10), Validators.pattern(/^\d+$/), phoneStartsWithZeroValidator()]],
     city: ['', [Validators.maxLength(50)]],
-    country: ['', [Validators.maxLength(50)]],
+    country: ['Vietnam', [Validators.maxLength(50)]],
     avatar_url: [''],
   });
 
@@ -136,7 +140,7 @@ export class CreateUserComponent implements OnInit {
           email: user.email || '',
           phone: user.phone || '',
           city: user.city || '',
-          country: user.country || '',
+          country: user.country || 'Vietnam',
           avatar_url: user.avatar_url || '',
         });
         this.avatarPreviewUrl = user.avatar_url || this.defaultAvatarUrl;
