@@ -1,8 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HotToastService } from '@ngxpert/hot-toast';
-import { UserStateService } from '@core/services';
-import { BehaviorSubject, combineLatest, map } from 'rxjs';
+import { UserService, UserStateService } from '@core/services';
+import { BehaviorSubject, combineLatest, finalize, map } from 'rxjs';
 
 @Component({
   selector: 'app-list',
@@ -13,9 +13,11 @@ import { BehaviorSubject, combineLatest, map } from 'rxjs';
 export class ListComponent implements OnInit {
   readonly defaultAvatarUrl = '/images/placeholder.png';
   private readonly _userStateService = inject(UserStateService);
+  private readonly _userService = inject(UserService);
   private readonly _router = inject(Router);
   private readonly _toast = inject(HotToastService);
   private readonly _searchTerm$ = new BehaviorSubject<string>('');
+  private readonly _deletingUserIds = new Set<string>();
   readonly perPageOptions = [10, 20, 50];
 
   readonly users$ = this._userStateService.users$;
@@ -100,5 +102,38 @@ export class ListComponent implements OnInit {
     }
 
     img.src = this.defaultAvatarUrl;
+  }
+
+  isDeletingUser(userId: string): boolean {
+    return this._deletingUserIds.has(userId);
+  }
+
+  deleteUser(event: Event, userId: string, fullName: string): void {
+    event.stopPropagation();
+
+    const confirmed = window.confirm(`Delete user ${fullName}?`);
+    if (!confirmed || this.isDeletingUser(userId)) {
+      return;
+    }
+
+    this._deletingUserIds.add(userId);
+
+    const { page, perPage } = this._userStateService.snapshot;
+    this._userService
+      .delete(userId)
+      .pipe(
+        finalize(() => {
+          this._deletingUserIds.delete(userId);
+        }),
+      )
+      .subscribe({
+        next: () => {
+          this._toast.success('User deleted successfully!');
+          this._userStateService.loadUsers(true, page, perPage);
+        },
+        error: (err: Error) => {
+          this._toast.error(err?.message || 'Failed to delete user.');
+        },
+      });
   }
 }

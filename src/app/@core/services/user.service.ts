@@ -74,4 +74,24 @@ export class UserService {
       return data as UserEntity;
     });
   }
+
+  delete(userId: string) {
+    return defer(async (): Promise<string> => {
+      if (!this._supabaseService.isConfigured) {
+        throw new Error('Supabase is not configured.');
+      }
+
+      const { data, error } = await this._supabaseService.client.from(environment.supabase.usersTable).delete().eq('id', userId).select('id').maybeSingle();
+
+      if (error) {
+        throw error;
+      }
+
+      if (!data?.id) {
+        throw new Error('Delete failed: user was not removed. Check RLS delete policy for users table.');
+      }
+
+      return data.id as string;
+    });
+  }
 }

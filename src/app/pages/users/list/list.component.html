@@ -24,6 +24,7 @@
           <th>Email</th>
           <th>Phone</th>
           <th>Location</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>
@@ -38,17 +39,24 @@
                 <td>{{ user.email }}</td>
                 <td>{{ user.phone || '-' }}</td>
                 <td>{{ user.displayLocation }}</td>
+                <td class="actions-cell">
+                  <button type="button" class="btn-delete" [disabled]="isDeletingUser(user.id)" (click)="deleteUser($event, user.id, user.fullName)" aria-label="Delete user" title="Delete user">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                      <path d="M9 3h6l1 2h4v2H4V5h4l1-2zm1 6h2v9h-2V9zm4 0h2v9h-2V9zM7 9h2v9H7V9z" />
+                    </svg>
+                  </button>
+                </td>
               </tr>
             }
             @if (!filteredUsers.length) {
               <tr>
-                <td colspan="5" style="text-align: center">No users found.</td>
+                <td colspan="6" style="text-align: center">No users found.</td>
               </tr>
             }
           }
         } @else {
           <tr>
-            <td colspan="5" style="text-align: center">Loading...</td>
+            <td colspan="6" style="text-align: center">Loading...</td>
           </tr>
         }
       </tbody>
