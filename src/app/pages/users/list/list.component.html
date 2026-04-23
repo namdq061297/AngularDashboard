@@ -8,6 +8,10 @@
     </div>
   }
 
+  <div class="search-container">
+    <input type="text" placeholder="Search by name, email, phone" aria-label="Search users" maxlength="20" (input)="onSearchChange($event)" />
+  </div>
+
   <div class="user-table-container">
     <table class="user-table">
       <thead>
@@ -21,21 +25,23 @@
       </thead>
       <tbody>
         @if (!(isLoading$ | async)) {
-          @for (user of users$ | async; track user.id) {
-            <tr (click)="userClicked()">
-              <td>
-                <img [src]="user.avatarThumbnail" alt="{{ user.fullName }} avatar" />
-              </td>
-              <td>{{ user.fullName }}</td>
-              <td>{{ user.email }}</td>
-              <td>{{ user.phone || '-' }}</td>
-              <td>{{ user.displayLocation }}</td>
-            </tr>
-          }
-          @if (!(users$ | async)?.length) {
-            <tr>
-              <td colspan="5" style="text-align: center">No users found in Supabase table.</td>
-            </tr>
+          @if (filteredUsers$ | async; as filteredUsers) {
+            @for (user of filteredUsers; track user.id) {
+              <tr class="user-row" (click)="userClicked()">
+                <td>
+                  <img [src]="user.avatarThumbnail" alt="{{ user.fullName }} avatar" />
+                </td>
+                <td>{{ user.fullName }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.phone || '-' }}</td>
+                <td>{{ user.displayLocation }}</td>
+              </tr>
+            }
+            @if (!filteredUsers.length) {
+              <tr>
+                <td colspan="5" style="text-align: center">No users found.</td>
+              </tr>
+            }
           }
         } @else {
           <tr>
