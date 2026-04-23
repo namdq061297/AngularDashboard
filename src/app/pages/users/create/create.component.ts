@@ -1,6 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HotToastService } from '@ngxpert/hot-toast';
 
 import { UserService } from '@core/services';
@@ -12,14 +12,18 @@ import { UserStateService } from '@core/services';
   styleUrl: './create.component.scss',
   standalone: false,
 })
-export class CreateUserComponent {
+export class CreateUserComponent implements OnInit {
   readonly defaultAvatarUrl = '/images/placeholder.png';
   private readonly _fb = inject(FormBuilder);
   private readonly _userService = inject(UserService);
   private readonly _userStateService = inject(UserStateService);
+  private readonly _route = inject(ActivatedRoute);
   private readonly _router = inject(Router);
   private readonly _toast = inject(HotToastService);
 
+  isEditMode = false;
+  editingUserId = '';
+  isLoadingUser = false;
   isSubmitting = false;
   avatarPreviewUrl = this.defaultAvatarUrl;
   avatarFileError = '';
@@ -38,6 +42,17 @@ export class CreateUserComponent {
     return this.form.controls;
   }
 
+  ngOnInit(): void {
+    const userId = this._route.snapshot.paramMap.get('id');
+    if (!userId) {
+      return;
+    }
+
+    this.isEditMode = true;
+    this.editingUserId = userId;
+    this._loadUserForEdit(userId);
+  }
+
   onSubmit(): void {
     if (this.form.invalid || this.isSubmitting) {
       this.form.markAllAsTouched();
@@ -48,15 +63,17 @@ export class CreateUserComponent {
 
     const payload = this.form.getRawValue();
 
-    this._userService.create(payload).subscribe({
+    const request$ = this.isEditMode ? this._userService.update(this.editingUserId, payload) : this._userService.create(payload);
+
+    request$.subscribe({
       next: () => {
         this._userStateService.clear();
-        this._toast.success('User created successfully!');
+        this._toast.success(this.isEditMode ? 'User updated successfully!' : 'User created successfully!');
         this._router.navigate(['/users/list']);
       },
       error: (err: Error) => {
         this.isSubmitting = false;
-        this._toast.error(err?.message || 'Failed to create user.');
+        this._toast.error(err?.message || (this.isEditMode ? 'Failed to update user.' : 'Failed to create user.'));
       },
     });
   }
@@ -106,6 +123,31 @@ export class CreateUserComponent {
 
   onAvatarPreviewError(): void {
     this.avatarPreviewUrl = this.defaultAvatarUrl;
+  }
+
+  private _loadUserForEdit(userId: string): void {
+    this.isLoadingUser = true;
+
+    this._userService.findById(userId).subscribe({
+      next: (user) => {
+        this.form.patchValue({
+          first_name: user.first_name || '',
+          last_name: user.last_name || '',
+          email: user.email || '',
+          phone: user.phone || '',
+          city: user.city || '',
+          country: user.country || '',
+          avatar_url: user.avatar_url || '',
+        });
+        this.avatarPreviewUrl = user.avatar_url || this.defaultAvatarUrl;
+        this.isLoadingUser = false;
+      },
+      error: (err: Error) => {
+        this.isLoadingUser = false;
+        this._toast.error(err?.message || 'Unable to load user for editing.');
+        this._router.navigate(['/users/list']);
+      },
+    });
   }
 }
 

@@ -33,6 +33,26 @@ export interface CreateUserPayload {
 export class UserService {
   constructor(private readonly _supabaseService: SupabaseService) {}
 
+  findById(userId: string) {
+    return defer(async (): Promise<UserEntity> => {
+      if (!this._supabaseService.isConfigured) {
+        throw new Error('Supabase is not configured. Set NG_APP_SUPABASE_URL and NG_APP_SUPABASE_ANON_KEY.');
+      }
+
+      const { data, error } = await this._supabaseService.client.from(environment.supabase.usersTable).select('*').eq('id', userId).limit(1);
+
+      if (error) {
+        throw error;
+      }
+
+      if (!data?.length) {
+        throw new Error('User not found.');
+      }
+
+      return data[0] as UserEntity;
+    });
+  }
+
   find(params: UserQueryParams) {
     return defer(async (): Promise<PaginatedUsersResult> => {
       if (!this._supabaseService.isConfigured) {
@@ -65,13 +85,37 @@ export class UserService {
         throw new Error('Supabase is not configured.');
       }
 
-      const { data, error } = await this._supabaseService.client.from(environment.supabase.usersTable).insert([payload]).select().single();
+      const { data, error } = await this._supabaseService.client.from(environment.supabase.usersTable).insert([payload]).select().limit(1);
 
       if (error) {
         throw error;
       }
 
-      return data as UserEntity;
+      if (!data?.length) {
+        throw new Error('Create failed: no row returned. Check RLS select policy for users table.');
+      }
+
+      return data[0] as UserEntity;
+    });
+  }
+
+  update(userId: string, payload: CreateUserPayload) {
+    return defer(async (): Promise<UserEntity> => {
+      if (!this._supabaseService.isConfigured) {
+        throw new Error('Supabase is not configured.');
+      }
+
+      const { data, error } = await this._supabaseService.client.from(environment.supabase.usersTable).update(payload).eq('id', userId).select().limit(1);
+
+      if (error) {
+        throw error;
+      }
+
+      if (!data?.length) {
+        throw new Error('Update failed: no row returned. Check RLS update/select policy for users table.');
+      }
+
+      return data[0] as UserEntity;
     });
   }
 
@@ -81,17 +125,17 @@ export class UserService {
         throw new Error('Supabase is not configured.');
       }
 
-      const { data, error } = await this._supabaseService.client.from(environment.supabase.usersTable).delete().eq('id', userId).select('id').maybeSingle();
+      const { data, error } = await this._supabaseService.client.from(environment.supabase.usersTable).delete().eq('id', userId).select('id');
 
       if (error) {
         throw error;
       }
 
-      if (!data?.id) {
+      if (!data?.length) {
         throw new Error('Delete failed: user was not removed. Check RLS delete policy for users table.');
       }
 
-      return data.id as string;
+      return data[0].id as string;
     });
   }
 }

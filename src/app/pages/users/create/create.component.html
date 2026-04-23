@@ -1,6 +1,6 @@
 <section class="main-container">
   <div class="page-header">
-    <h2>Add New User</h2>
+    <h2>{{ isEditMode ? 'Edit User' : 'Add New User' }}</h2>
   </div>
 
   <form class="user-form" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
@@ -85,8 +85,8 @@
 
     <div class="form-actions">
       <button type="button" class="btn-cancel" (click)="onCancel()">Cancel</button>
-      <button type="submit" class="btn-submit" [disabled]="isSubmitting">
-        {{ isSubmitting ? 'Saving...' : 'Save User' }}
+      <button type="submit" class="btn-submit" [disabled]="isSubmitting || isLoadingUser">
+        {{ isSubmitting ? 'Saving...' : isEditMode ? 'Update User' : 'Save User' }}
       </button>
     </div>
   </form>

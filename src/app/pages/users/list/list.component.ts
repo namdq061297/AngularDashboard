@@ -108,6 +108,11 @@ export class ListComponent implements OnInit {
     return this._deletingUserIds.has(userId);
   }
 
+  editUser(event: Event, userId: string): void {
+    event.stopPropagation();
+    this._router.navigate(['/users/edit', userId]);
+  }
+
   deleteUser(event: Event, userId: string, fullName: string): void {
     event.stopPropagation();
 

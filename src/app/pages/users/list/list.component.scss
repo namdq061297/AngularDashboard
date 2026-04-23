@@ -100,7 +100,34 @@
 }
 
 .actions-cell {
-  width: 72px;
+  width: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-edit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid #bcd7ff;
+  border-radius: 8px;
+  background: #eef5ff;
+  color: #1d4ed8;
+  cursor: pointer;
+
+  svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+  }
+
+  &:hover {
+    background: #ddeaff;
+  }
 }
 
 .btn-delete {
