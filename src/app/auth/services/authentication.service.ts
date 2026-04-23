@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { defer, Observable, throwError } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { defer, from, Observable, throwError } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
 
 import { CredentialsService } from '@app/auth';
 import { Credentials } from '@core/entities';
@@ -85,5 +85,59 @@ export class AuthenticationService {
         return throwError(() => error);
       }),
     );
+  }
+
+  changePassword(currentPassword: string, newPassword: string): Observable<boolean> {
+    return from(this._resolveCurrentEmail()).pipe(
+      switchMap((email) =>
+        defer(() =>
+          this._supabaseService.client.auth.signInWithPassword({
+            email,
+            password: currentPassword,
+          }),
+        ),
+      ),
+      map((response: any) => {
+        if (response.error) {
+          throw new Error('Current password is incorrect.');
+        }
+
+        return true;
+      }),
+      switchMap(() =>
+        defer(() =>
+          this._supabaseService.client.auth.updateUser({
+            password: newPassword,
+          }),
+        ),
+      ),
+      map((response: any) => {
+        if (response.error) {
+          throw new Error(response.error.message);
+        }
+
+        return true;
+      }),
+      catchError((error) => {
+        console.error('Change password error:', error);
+        return throwError(() => error);
+      }),
+    );
+  }
+
+  private async _resolveCurrentEmail(): Promise<string> {
+    const credentialsEmail = this._credentialsService.credentials?.email;
+    if (credentialsEmail) {
+      return credentialsEmail;
+    }
+
+    const response = await this._supabaseService.client.auth.getUser();
+    const userEmail = response.data.user?.email;
+
+    if (!userEmail) {
+      throw new Error('Unable to resolve current user email. Please login again.');
+    }
+
+    return userEmail;
   }
 }

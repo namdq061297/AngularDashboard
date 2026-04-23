@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { environment } from '@env/environment';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -23,6 +23,7 @@ export class SidebarComponent implements OnInit {
   sidebarExtendedItem = -1;
   navExpanded = true;
   userEmail = 'user';
+  isUserMenuOpen = false;
 
   constructor(
     private readonly _router: Router,
@@ -77,6 +78,28 @@ export class SidebarComponent implements OnInit {
 
   activateSidebarSubItem(index: number, subItem: NavMenuItem): void {
     this.shellService.activateNavSubItem(index, subItem, this.sidebarItems);
+  }
+
+  toggleUserMenu(event: Event): void {
+    event.stopPropagation();
+    this.isUserMenuOpen = !this.isUserMenuOpen;
+  }
+
+  goToProfile(event: Event): void {
+    event.stopPropagation();
+    this.isUserMenuOpen = false;
+    window.alert('Profile page is coming soon.');
+  }
+
+  goToChangePassword(event: Event): void {
+    event.stopPropagation();
+    this.isUserMenuOpen = false;
+    this._router.navigate(['/change-password']);
+  }
+
+  @HostListener('document:click')
+  closeUserMenu(): void {
+    this.isUserMenuOpen = false;
   }
 
   private async _setLoggedInUserLabel(): Promise<void> {

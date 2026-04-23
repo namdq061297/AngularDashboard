@@ -4,9 +4,16 @@
     <span style="color: var(--gray-400)"><</span>
   </span>
 
-  <div class="logo-container" routerLink="/">
+  <div class="logo-container" (click)="toggleUserMenu($event)">
     <img alt="Logo" class="logo" src="images/placeholder.png" />
     <h4>Xin chao {{ userEmail }}</h4>
+
+    @if (isUserMenuOpen) {
+      <div class="user-menu" (click)="$event.stopPropagation()">
+        <button type="button" (click)="goToProfile($event)">Profile</button>
+        <button type="button" (click)="goToChangePassword($event)">Change password</button>
+      </div>
+    }
   </div>
 
   <div class="navbar-menu-items" dir="auto">
