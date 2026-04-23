@@ -1,5 +1,8 @@
 <section class="main-container">
-  <h2>Users List</h2>
+  <div class="page-header">
+    <h2>Users List</h2>
+    <button class="btn-add-user" type="button" (click)="addUser()">+ Add User</button>
+  </div>
 
   @if (error$ | async; as error) {
     <div class="users-state users-state--error">
@@ -21,6 +24,7 @@
           <th>Email</th>
           <th>Phone</th>
           <th>Location</th>
+          <th>Created At</th>
         </tr>
       </thead>
       <tbody>
@@ -35,17 +39,18 @@
                 <td>{{ user.email }}</td>
                 <td>{{ user.phone || '-' }}</td>
                 <td>{{ user.displayLocation }}</td>
+                <td>{{ user.displayCreatedAt }}</td>
               </tr>
             }
             @if (!filteredUsers.length) {
               <tr>
-                <td colspan="5" style="text-align: center">No users found.</td>
+                <td colspan="6" style="text-align: center">No users found.</td>
               </tr>
             }
           }
         } @else {
           <tr>
-            <td colspan="5" style="text-align: center">Loading...</td>
+            <td colspan="6" style="text-align: center">Loading...</td>
           </tr>
         }
       </tbody>

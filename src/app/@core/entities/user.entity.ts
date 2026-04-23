@@ -7,6 +7,20 @@ export class UserEntity {
   city?: string;
   country?: string;
   avatar_url?: string;
+  created_at?: string;
+
+  get displayCreatedAt(): string {
+    if (!this.created_at) {
+      return '-';
+    }
+    return new Date(this.created_at).toLocaleString('vi-VN', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+  }
 
   get fullName(): string {
     const fullName = `${this.first_name || ''} ${this.last_name || ''}`.trim();

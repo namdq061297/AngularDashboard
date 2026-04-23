@@ -17,6 +17,16 @@ export interface PaginatedUsersResult {
   total: number;
 }
 
+export interface CreateUserPayload {
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone?: string;
+  city?: string;
+  country?: string;
+  avatar_url?: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -46,6 +56,22 @@ export class UserService {
         perPage,
         total: count ?? 0,
       };
+    });
+  }
+
+  create(payload: CreateUserPayload) {
+    return defer(async (): Promise<UserEntity> => {
+      if (!this._supabaseService.isConfigured) {
+        throw new Error('Supabase is not configured.');
+      }
+
+      const { data, error } = await this._supabaseService.client.from(environment.supabase.usersTable).insert([payload]).select().single();
+
+      if (error) {
+        throw error;
+      }
+
+      return data as UserEntity;
     });
   }
 }

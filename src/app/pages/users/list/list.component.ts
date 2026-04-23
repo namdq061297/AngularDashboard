@@ -1,4 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { UserStateService } from '@core/services';
 import { BehaviorSubject, combineLatest, map } from 'rxjs';
@@ -11,6 +12,7 @@ import { BehaviorSubject, combineLatest, map } from 'rxjs';
 })
 export class ListComponent implements OnInit {
   private readonly _userStateService = inject(UserStateService);
+  private readonly _router = inject(Router);
   private readonly _toast = inject(HotToastService);
   private readonly _searchTerm$ = new BehaviorSubject<string>('');
   readonly perPageOptions = [10, 20, 50];
@@ -54,6 +56,10 @@ export class ListComponent implements OnInit {
 
   userClicked() {
     this._toast.show('User clicked');
+  }
+
+  addUser(): void {
+    this._router.navigate(['/users/create']);
   }
 
   reloadUsers(): void {
