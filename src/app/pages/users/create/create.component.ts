@@ -1,5 +1,6 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { AbstractControl, FormBuilder, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { countries } from 'countries-list';
@@ -13,7 +14,7 @@ import { UserStateService } from '@core/services';
   styleUrl: './create.component.scss',
   standalone: false,
 })
-export class CreateUserComponent implements OnInit {
+export class CreateUserComponent implements OnInit, OnDestroy {
   readonly defaultAvatarUrl = '/images/placeholder.png';
   readonly countryOptions = Object.values(countries)
     .map((country) => country.name)
@@ -31,6 +32,7 @@ export class CreateUserComponent implements OnInit {
   isSubmitting = false;
   avatarPreviewUrl = this.defaultAvatarUrl;
   avatarFileError = '';
+  private _avatarUrlSub?: Subscription;
 
   form = this._fb.nonNullable.group({
     first_name: ['', [Validators.required, Validators.maxLength(50)]],
@@ -47,6 +49,10 @@ export class CreateUserComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this._avatarUrlSub = this.form.controls.avatar_url.valueChanges.subscribe((value) => {
+      this.avatarPreviewUrl = value || this.defaultAvatarUrl;
+    });
+
     const userId = this._route.snapshot.paramMap.get('id');
     if (!userId) {
       return;
@@ -55,6 +61,10 @@ export class CreateUserComponent implements OnInit {
     this.isEditMode = true;
     this.editingUserId = userId;
     this._loadUserForEdit(userId);
+  }
+
+  ngOnDestroy(): void {
+    this._avatarUrlSub?.unsubscribe();
   }
 
   onSubmit(): void {
@@ -118,11 +128,6 @@ export class CreateUserComponent implements OnInit {
     };
 
     reader.readAsDataURL(file);
-  }
-
-  onAvatarUrlChange(event: Event): void {
-    const value = (event.target as HTMLInputElement | null)?.value ?? '';
-    this.avatarPreviewUrl = value || this.defaultAvatarUrl;
   }
 
   onAvatarPreviewError(): void {

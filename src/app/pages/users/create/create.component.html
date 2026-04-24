@@ -5,73 +5,46 @@
 
   <form class="user-form" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
     <div class="form-row">
-      <div class="form-field">
-        <label for="first_name">First Name <span class="required">*</span></label>
-        <input id="first_name" type="text" formControlName="first_name" placeholder="John" />
-        @if (f['first_name'].invalid && f['first_name'].touched) {
-          <span class="field-error">First name is required.</span>
-        }
-      </div>
+      <app-form-field class="form-field" controlName="first_name" label="First Name" [required]="true" placeholder="John" [errors]="{ required: 'First name is required.' }"></app-form-field>
 
-      <div class="form-field">
-        <label for="last_name">Last Name <span class="required">*</span></label>
-        <input id="last_name" type="text" formControlName="last_name" placeholder="Doe" />
-        @if (f['last_name'].invalid && f['last_name'].touched) {
-          <span class="field-error">Last name is required.</span>
-        }
-      </div>
+      <app-form-field class="form-field" controlName="last_name" label="Last Name" [required]="true" placeholder="Doe" [errors]="{ required: 'Last name is required.' }"></app-form-field>
     </div>
 
     <div class="form-row">
-      <div class="form-field">
-        <label for="email">Email <span class="required">*</span></label>
-        <input id="email" type="email" formControlName="email" placeholder="john.doe@example.com" />
-        @if (f['email'].touched) {
-          @if (f['email'].errors?.['required']) {
-            <span class="field-error">Email is required.</span>
-          } @else if (f['email'].errors?.['email']) {
-            <span class="field-error">Please enter a valid email.</span>
-          }
-        }
-      </div>
+      <app-form-field
+        class="form-field"
+        controlName="email"
+        label="Email"
+        type="email"
+        [required]="true"
+        placeholder="john.doe@example.com"
+        [errors]="{ required: 'Email is required.', email: 'Please enter a valid email.' }"
+      ></app-form-field>
 
-      <div class="form-field">
-        <label for="phone">Phone</label>
-        <input id="phone" type="tel" formControlName="phone" placeholder="0900000000" maxlength="10" />
-        @if (f['phone'].touched && f['phone'].errors) {
-          @if (f['phone'].errors?.['maxlength']) {
-            <span class="field-error">Phone must be at most 10 digits.</span>
-          } @else if (f['phone'].errors?.['pattern']) {
-            <span class="field-error">Phone must contain digits only.</span>
-          } @else if (f['phone'].errors?.['startsWithZero']) {
-            <span class="field-error">Phone must start with 0.</span>
-          }
-        }
-      </div>
+      <app-form-field
+        class="form-field"
+        controlName="phone"
+        label="Phone"
+        type="tel"
+        placeholder="0900000000"
+        [maxlength]="10"
+        [errors]="{ maxlength: 'Phone must be at most 10 digits.', pattern: 'Phone must contain digits only.', startsWithZero: 'Phone must start with 0.' }"
+      ></app-form-field>
     </div>
 
     <div class="form-row">
-      <div class="form-field">
-        <label for="city">City</label>
-        <input id="city" type="text" formControlName="city" placeholder="Ho Chi Minh" />
-      </div>
+      <app-form-field class="form-field" controlName="city" label="City" placeholder="Ho Chi Minh"></app-form-field>
 
-      <div class="form-field">
-        <label for="country">Country</label>
-        <select id="country" formControlName="country">
-          <option value="">Select country</option>
-          @for (country of countryOptions; track country) {
-            <option [value]="country">{{ country }}</option>
-          }
-        </select>
-      </div>
+      <app-form-field class="form-field" controlName="country" label="Country" type="select">
+        <option value="">Select country</option>
+        @for (country of countryOptions; track country) {
+          <option [value]="country">{{ country }}</option>
+        }
+      </app-form-field>
     </div>
 
     <div class="form-row">
-      <div class="form-field form-field--full">
-        <label for="avatar_url">Avatar URL</label>
-        <input id="avatar_url" type="url" formControlName="avatar_url" placeholder="https://example.com/avatar.png" (input)="onAvatarUrlChange($event)" />
-      </div>
+      <app-form-field class="form-field form-field--full" controlName="avatar_url" label="Avatar URL" type="url" placeholder="https://example.com/avatar.png"></app-form-field>
     </div>
 
     <div class="form-row">

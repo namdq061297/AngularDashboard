@@ -1,0 +1,18 @@
+<label [for]="controlName">
+  {{ label }}
+  @if (required) {
+    <span class="required">*</span>
+  }
+</label>
+
+@if (type === 'select') {
+  <select [id]="controlName" [formControlName]="controlName">
+    <ng-content></ng-content>
+  </select>
+} @else {
+  <input [id]="controlName" [type]="type" [formControlName]="controlName" [placeholder]="placeholder" [attr.maxlength]="maxlength ?? null" />
+}
+
+@if (showErrors && errorMessage) {
+  <span class="field-error">{{ errorMessage }}</span>
+}

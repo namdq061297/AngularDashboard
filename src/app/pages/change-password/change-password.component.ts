@@ -5,11 +5,12 @@ import { finalize, switchMap } from 'rxjs/operators';
 import { HotToastService } from '@ngxpert/hot-toast';
 
 import { AuthenticationService } from '@auth';
+import { FormFieldComponent } from '@shared/components';
 
 @Component({
   selector: 'app-change-password',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, FormFieldComponent],
   templateUrl: './change-password.component.html',
   styleUrl: './change-password.component.scss',
 })
