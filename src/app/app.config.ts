@@ -26,7 +26,7 @@ export const appConfig: ApplicationConfig = {
       TranslateModule.forRoot(),
       ShellModule,
       SocketIoModule.forRoot({
-        rootUrl: null, // TODO: provide your own socket.io server URL
+        rootUrl: '', // TODO: provide your own socket.io server URL
         options: {
           transports: ['websocket'],
         },
